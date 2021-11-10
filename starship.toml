@@ -1,0 +1,113 @@
+add_newline = false
+
+[line_break]
+disabled = true
+
+[username]
+disabled = true
+
+[hostname]
+ssh_only = false
+# prefix = ""
+# suffix = ""
+trim_at = "."
+disabled = false
+
+[cmd_duration]
+min_time = 15000
+# prefix = ""
+
+[directory]
+truncate_to_repo = false
+truncation_length = 4
+# prefix = ""
+
+[git_branch]
+symbol = "🌱 "
+# symbol = ""
+
+[git_status]
+untracked = ""
+stashed = ""
+modified = "!"
+modified_count.enable = true
+staged = "+"
+staged_count.enable = true
+staged_count.style = "green"
+renamed = ""
+deleted = "✘"
+deleted_count.enable = true
+deleted_count.style = "red"
+show_sync_count = true
+disabled = true
+
+[memory_usage]
+disabled = true
+show_percentage = true
+show_swap = true
+
+[aws]
+disabled = true
+
+[conda]
+disabled = true
+
+[crystal]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[dotnet]
+disabled = true
+
+[elixir]
+disabled = true
+
+[elm]
+disabled = true
+
+[erlang]
+disabled = true
+
+[golang]
+disabled = true
+
+[java]
+disabled = true
+
+[julia]
+disabled = true
+
+[kubernetes]
+disabled = true
+
+[nix_shell]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[php]
+disabled = true
+
+[ruby]
+disabled = true
+
+[rust]
+disabled = true
+
+[singularity]
+disabled = true
+
+[terraform]
+disabled = true
+
+[zig]
+disabled = true
+
+[python]
+disabled = false
+# pyenv_version_name = true
+# pyenv_prefix = "pyenv "
+# scan_for_pyfiles = false

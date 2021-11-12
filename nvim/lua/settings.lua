@@ -109,9 +109,16 @@ cmd [[command Term :botright vsplit term://$SHELL]]
 --- enter insert mode when switching to terminal
 --- close terminal buffer on process exit
 cmd [[
-    autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
-    autocmd TermOpen * startinsert
-    autocmd BufLeave term://* stopinsert
+  autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
+  autocmd TermOpen * startinsert
+  autocmd BufLeave term://* stopinsert
+]]
+
+-- Highlights trailing spaces
+cmd [[
+  highlight ExtraWhitespace ctermbg=red guibg=red
+  autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+  match ExtraWhitespace /\s\+$/
 ]]
 
 -----------------------------------------------------------

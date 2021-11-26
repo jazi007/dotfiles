@@ -27,19 +27,7 @@ symbol = "🌱 "
 # symbol = ""
 
 [git_status]
-untracked = ""
-stashed = ""
-modified = "!"
-modified_count.enable = true
-staged = "+"
-staged_count.enable = true
-staged_count.style = "green"
-renamed = ""
-deleted = "✘"
-deleted_count.enable = true
-deleted_count.style = "red"
-show_sync_count = true
-disabled = true
+disabled = false
 
 [memory_usage]
 disabled = true

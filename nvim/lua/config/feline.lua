@@ -91,7 +91,9 @@ function M.config()
         provider = {
           name = 'file_info',
           opts = {
-            type = 'relative-short',
+            -- type = 'relative-short',
+            -- type = 'unique-short',
+            type = 'full-path',
             file_readonly_icon = '  ',
             -- file_readonly_icon = '  ',
             -- file_readonly_icon = '  ',

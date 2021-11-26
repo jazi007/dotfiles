@@ -44,7 +44,7 @@ return require('packer').startup(function(use)
   use {
     'tpope/vim-fugitive',
     opt = true,
-    cmd = {'Gdiffsplit', 'GBrowse'},
+    cmd = {'Gdiffsplit', 'Gvdiffsplit', 'GBrowse', 'Git'},
   }
 
   -- Add git related info in the signs columns and popups

@@ -6,10 +6,10 @@ function M.config()
     hijack_netrw        = true,
     open_on_setup       = true,
     ignore_ft_on_setup  = {},
-    auto_close          = true,
+    auto_close          = false,
     open_on_tab         = false,
     hijack_cursor       = true,
-    update_cwd          = true,
+    update_cwd          = false,
     update_to_buf_dir   = {
       enable = true,
       auto_open = true,
@@ -25,7 +25,7 @@ function M.config()
     },
     update_focused_file = {
       enable      = true,
-      update_cwd  = true,
+      update_cwd  = false,
       ignore_list = {}
     },
     system_open = {
@@ -52,9 +52,16 @@ function M.config()
   local map = vim.api.nvim_set_keymap
   local opts = {noremap = true, silent = true}
 
-  --Add leader shortcuts
+  -- New commands
+  vim.cmd [[
+    command! NvimTreeChangeDir lua require'nvim-tree'.change_dir(vim.fn.expand("%:h"))
+    command! NvimTreeChangeHome lua require'nvim-tree'.change_dir(vim.g.start_directory)
+  ]]
+
+  -- Add leader shortcuts
   map('n', '<leader>nt', ':NvimTreeToggle<CR>', opts)
-  map('n', '<leader>nf', ':NvimTreeRefresh<CR>', opts)
+  map('n', '<leader>nf', ':NvimTreeChangeDir<CR>', opts)
+  map('n', '<leader>nb', ':NvimTreeChangeHome<CR>', opts)
 end
 
 return M

@@ -54,21 +54,36 @@ function M.config()
     return (count > 0) and ' '..count..' ' or ''
   end
 
+  local get_mode_highlight_name = function()
+    if vi_mode_utils.get_vim_mode() == nil then
+      name = nil
+    else
+      name = vi_mode_utils.get_mode_highlight_name()
+    end
+    local val = {
+      name = name,
+      fg = vi_mode_utils.get_mode_color(),
+    }
+    return val
+  end
+
+  local get_vim_mode = function()
+    if vi_mode_utils.get_vim_mode() == nil then
+      return '  '
+    else
+      return '  ' .. vi_mode_utils.get_vim_mode()
+    end
+  end
   -- LuaFormatter off
 
   local comps = {
     vi_mode = {
       left = {
         provider = function()
-          return '  ' .. vi_mode_utils.get_vim_mode()
+          return get_vim_mode()
         end,
         hl = function()
-          local val = {
-            name = vi_mode_utils.get_mode_highlight_name(),
-            fg = vi_mode_utils.get_mode_color(),
-            -- fg = colors.bg
-          }
-          return val
+          return get_mode_highlight_name()
         end,
         right_sep = ' '
       },
@@ -76,11 +91,7 @@ function M.config()
         -- provider = '▊',
         provider = '' ,
         hl = function()
-          local val = {
-            name = vi_mode_utils.get_mode_highlight_name(),
-            fg = vi_mode_utils.get_mode_color()
-          }
-          return val
+          return get_mode_highlight_name()
         end,
         left_sep = ' ',
         right_sep = ' '
@@ -309,7 +320,8 @@ function M.config()
         'packer',
         'NvimTree',
         'fugitive',
-        'fugitiveblame'
+        'fugitiveblame',
+        'termdebug',
       },
       buftypes = {'terminal'},
       bufnames = {}

@@ -3,6 +3,7 @@ local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 local packer_bootstrap = false
 local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
+local vscode = not fn.exists('g:vscode')
 
 if fn.empty(fn.glob(install_path)) > 0 then
   print('Installing packer ...', install_path)
@@ -17,17 +18,20 @@ return require('packer').startup(function(use)
   use {
     'joshdick/onedark.vim',
     config = function() require('config.color').config() end,
+    disable = vscode,
   }
 
   use {
     'akinsho/bufferline.nvim',
     requires = 'kyazdani42/nvim-web-devicons',
     config = function() require('bufferline').setup() end,
+    disable = vscode,
   }
 
   use {
     'famiu/feline.nvim',
     config = function() require('config.feline').config() end,
+    disable = vscode,
   }
 
   -- tpope plugins
@@ -36,6 +40,7 @@ return require('packer').startup(function(use)
     'tpope/vim-dispatch',
     opt = true,
     cmd = {'Dispatch', 'Make', 'Focus', 'Start'},
+    disable = vscode,
   }
   use 'tpope/vim-unimpaired'
   -- use 'tpope/vim-eunuch'
@@ -45,6 +50,7 @@ return require('packer').startup(function(use)
     'tpope/vim-fugitive',
     opt = true,
     cmd = {'Gdiffsplit', 'Gvdiffsplit', 'GBrowse', 'Git'},
+    disable = vscode,
   }
 
   -- Add git related info in the signs columns and popups
@@ -52,12 +58,14 @@ return require('packer').startup(function(use)
     'lewis6991/gitsigns.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
     config = function() require('gitsigns').setup() end,
+    disable = vscode,
   }
   -- file explorer
   use {
     'kyazdani42/nvim-tree.lua',
     requires = 'kyazdani42/nvim-web-devicons',
-    config = function() require'config.tree'.config {} end
+    config = function() require'config.tree'.config {} end,
+    disable = vscode,
   }
 
   -- UI to select things (files, grep results, open buffers...)
@@ -65,6 +73,7 @@ return require('packer').startup(function(use)
     'nvim-telescope/telescope.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
     config = function () require('config.telescope').config() end,
+    disable = vscode,
   }
 
   -- Highlights
@@ -76,6 +85,7 @@ return require('packer').startup(function(use)
     },
     config = function() require('config.treesitter').config() end,
     run = ':TSUpdate',
+    disable = vscode,
   }
 
   -- Auto-complete
@@ -90,6 +100,7 @@ return require('packer').startup(function(use)
       -- 'hrsh7th/cmp-cmdline',
     },
     config = function() require('config.cmp').config() end,
+    disable = vscode,
   }
 
   -- Outline
@@ -97,6 +108,7 @@ return require('packer').startup(function(use)
     'simrat39/symbols-outline.nvim',
     cmd = { 'SymbolsOutline' },
     config = function() require('config.outline').config() end,
+    disable = vscode,
   }
   map('', '<F9>', ':SymbolsOutline<CR>', opts)
 
@@ -105,6 +117,7 @@ return require('packer').startup(function(use)
     'glepnir/dashboard-nvim',
     requires = {'nvim-telescope/telescope.nvim'},
     config = function() require('config.dashboard').config() end,
+    disable = vscode,
   }
 
   if packer_bootstrap then

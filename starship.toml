@@ -24,7 +24,6 @@ truncation_length = 4
 
 [git_branch]
 symbol = "🌱 "
-# symbol = ""
 
 [git_status]
 disabled = false

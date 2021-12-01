@@ -14,7 +14,15 @@ local cmd = vim.cmd -- execute Vim commands
 -----------------------------------------------------------
 -- General
 -----------------------------------------------------------
-g.mapleader   = ','           -- change leader to a comma
+--Remap space as leader key
+vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
+g.mapleader = ' '
+g.maplocalleader = ' '
+
+--Remap for dealing with word wrap
+vim.api.nvim_set_keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
+vim.api.nvim_set_keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
+
 opt.mouse     = 'a'           -- enable mouse support
 opt.clipboard = 'unnamedplus' -- copy/paste to system clipboard
 opt.swapfile  = false         -- don't use swapfile
@@ -118,7 +126,8 @@ cmd [[
 cmd [[
   highlight ExtraWhitespace ctermbg=red guibg=red
   autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-  match ExtraWhitespace /\s\+$/
+  autocmd FileType * match ExtraWhitespace /\s\+$/
+  autocmd FileType dashboard match ExtraWhitespace //
 ]]
 
 -----------------------------------------------------------

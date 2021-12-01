@@ -100,11 +100,11 @@ return require('packer').startup(function(use)
   }
   map('', '<F9>', ':SymbolsOutline<CR>', opts)
 
-  -- Session
+  -- Dashboard
   use {
-    'rmagatti/session-lens',
-    requires = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
-    config = function() require('config.session').config() end,
+    'glepnir/dashboard-nvim',
+    requires = {'nvim-telescope/telescope.nvim'},
+    config = function() require('config.dashboard').config() end,
   }
 
   if packer_bootstrap then

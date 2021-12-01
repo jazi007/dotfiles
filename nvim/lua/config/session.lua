@@ -18,15 +18,6 @@ function M.config()
 
   --Add leader shortcuts
   map('', '<F10>', ':SearchSession<CR>', opts)
-  vim.api.nvim_exec(
-    [[
-    augroup Session
-    autocmd!
-    autocmd VimLeave * NvimTreeClose
-    augroup end
-    ]],
-    false
-  )
 end
 
 return M

@@ -327,6 +327,16 @@ function M.config()
       bufnames = {}
     }
   }
+
+  vim.api.nvim_exec(
+    [[
+    augroup Session
+    autocmd!
+    autocmd VimLeave * NvimTreeClose
+    augroup end
+    ]],
+    false
+  )
 end
 
 return M

@@ -187,10 +187,10 @@ function M.config()
       warn = {
         -- provider = 'diagnostic_warnings',
         provider = function()
-          return '' ..  lsp_get_diag("Warning")
+          return '' ..  lsp_get_diag("Warn")
         end,
         -- left_sep = ' ',
-        enabled = function() return lsp.diagnostics_exist('Warning') end,
+        enabled = function() return lsp.diagnostics_exist('Warn') end,
         hl = {
           fg = colors.yellow
         }
@@ -198,10 +198,10 @@ function M.config()
       info = {
         -- provider = 'diagnostic_info',
         provider = function()
-          return '' .. lsp_get_diag("Information")
+          return '' .. lsp_get_diag("Info")
         end,
         -- left_sep = ' ',
-        enabled = function() return lsp.diagnostics_exist('Information') end,
+        enabled = function() return lsp.diagnostics_exist('Info') end,
         hl = {
           fg = colors.blue
         }

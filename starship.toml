@@ -25,6 +25,11 @@ truncation_length = 4
 [git_branch]
 symbol = "🌱 "
 
+[git_commit]
+tag_disabled = false
+# commit_hash_length = 4
+tag_symbol = "🔖"
+
 [git_status]
 disabled = false
 

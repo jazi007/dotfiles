@@ -136,9 +136,10 @@ fi
 # bumpversion for python
 if [[ -x "$(command -v bumpversion)" ]]; then
     alias bumpbuild="bumpversion build --allow-dirty"
-    alias bumppatch="bumpversion patch --commit --tag"
-    alias bumpminor="bumpversion minor --commit --tag"
-    alias bumpmajor="bumpversion major --commit --tag"
+    alias bumppatch="bumpversion patch --allow-dirty"
+    alias bumpminor="bumpversion minor --allow-dirty"
+    alias bumpmajor="bumpversion major --allow-dirty"
+    alias bumprelease="bumpversion --commit --tag release"
 fi
 """
     http_proxy = os.getenv('http_proxy', 'noproxy')

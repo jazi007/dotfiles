@@ -28,6 +28,7 @@ def setup_git():
     delBr = branch -D
     pf = push --force-with-lease
     su = branch --set-upstream-to
+    ca = commit --amend --no-edit
     tagList = for-each-ref --format '%(refname) %09 %(taggerdate) %(subject) %(taggeremail)' refs/tags  --sort=taggerdate
     sbu = submodule update
     sbs = submodule sync

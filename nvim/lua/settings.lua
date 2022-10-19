@@ -116,11 +116,13 @@ cmd [[command Term :botright vsplit term://$SHELL]]
 -- Terminal visual tweaks
 --- enter insert mode when switching to terminal
 --- close terminal buffer on process exit
-cmd [[
-  autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
-  autocmd TermOpen * startinsert
-  autocmd BufLeave term://* stopinsert
-]]
+-- cmd [[
+--   autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
+--   autocmd TermOpen * startinsert
+--   autocmd BufLeave term://* stopinsert
+--   autocmd FileType termdebug setlocal listchars= nonumber norelativenumber nocursorline
+--   autocmd FileType termdebug startinsert
+-- ]]
 
 -- Highlights trailing spaces
 cmd [[
@@ -128,6 +130,25 @@ cmd [[
   autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
   autocmd FileType * match ExtraWhitespace /\s\+$/
   autocmd FileType dashboard match ExtraWhitespace //
+]]
+
+-- Debug
+cmd [[
+  function! SetDebugMapping()
+    let g:termdebug_wide = 162
+    map <f5> :Continue<CR>
+    map <f10> :Over<CR>
+    map <f11> :Step<CR>
+    map <m-k> :Evaluate<CR>
+  endfunction
+  function! UnSetDebugMapping()
+    unmap <f5>
+    unmap <f10>
+    unmap <f11>
+    unmap <m-k>
+  endfunction
+  autocmd User TermdebugStartPre call SetDebugMapping()
+  autocmd User TermdebugStopPost call UnSetDebugMapping()
 ]]
 
 -----------------------------------------------------------

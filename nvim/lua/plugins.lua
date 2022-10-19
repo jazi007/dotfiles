@@ -120,6 +120,15 @@ return require('packer').startup(function(use)
     disable = vscode,
   }
 
+  -- Debugger
+  -- use {
+  --   "rcarriga/nvim-dap-ui",
+  --   requires = {"mfussenegger/nvim-dap"},
+  --   config = function() require('config.dap').config() end,
+  --   cmd = {'DebugLoad'},
+  --   disable = vscode,
+  -- }
+
   if packer_bootstrap then
     require('packer').sync()
   end

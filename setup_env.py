@@ -142,6 +142,18 @@ if [[ -x "$(command -v bumpversion)" ]]; then
     alias bumpmajor="bumpversion major --allow-dirty"
     alias bumprelease="bumpversion --commit --tag release"
 fi
+
+# cargo
+if [ -d "/home/az01754/.cargo/bin" ]; then
+    export PATH=$PATH:/home/az01754/.cargo/bin
+    if [[ -x "$(command -v exa)" ]]; then
+        alias ll="exa -1 --icons -l --git-ignore"
+        alias lla="exa -1 --icons -l --git-ignore -a"
+    fi
+    if [[ -x "$(command -v bat)" ]]; then
+        alias cat="bat"
+    fi
+fi
 """
     http_proxy = os.getenv('http_proxy', 'noproxy')
     https_proxy = os.getenv('https_proxy', 'noproxy')

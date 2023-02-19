@@ -6,7 +6,7 @@ function M.config()
     require 'nvim-treesitter.install'.compilers = { "clang" }
   end
   require('nvim-treesitter.configs').setup {
-    ensure_installed = {"bash", "c", "cmake", "comment", "lua", "json", "python", "toml", "yaml"},
+    ensure_installed = {"bash", "c", "cmake", "comment", "lua", "json", "python", "toml", "yaml", "rust"},
     highlight = {
       enable = true, -- false will disable the whole extension
     },

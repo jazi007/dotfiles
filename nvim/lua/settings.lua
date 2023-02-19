@@ -37,6 +37,7 @@ opt.number            = true      -- show line number
 opt.cursorline        = true
 opt.showmatch         = true      -- highlight matching parenthesis
 opt.foldmethod        = 'indent'  -- enable folding (default 'foldmarker')
+opt.foldenable        = false     -- enable folding (default 'foldmarker')
 -- opt.colorcolumn = '80'         -- line lenght marker at 80 columns
 -- opt.showmode          = false      -- show current mode (insert, etc) under the cmdline
 -- opt.showcmd           = false      -- show current command under the cmd line

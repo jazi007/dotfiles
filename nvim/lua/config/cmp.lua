@@ -2,7 +2,6 @@ local M = {}
 
 function M.config()
   -- LSP settings
-  -- local nvim_lsp = require 'lspconfig'
   local on_attach = function(_, bufnr)
     local map = vim.api.nvim_buf_set_keymap
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -31,70 +30,60 @@ function M.config()
 
   -- nvim-cmp supports additional completion capabilities
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  local servers = { 'clangd', 'pyright', 'rust_analyzer', 'bashls' }
+  require("mason").setup()
+  require("mason-lspconfig").setup { ensure_installed = servers }
+  local nvim_lsp = require 'lspconfig'
 
-  -- Enable the following language servers
-  -- local servers = { 'clangd', 'pyright' }
-  local function make_opts(server)
-    local opts = {
-      on_attach = on_attach,
-      capabilities = capabilities,
-    }
-    if server.name == "clangd" and vim.g.start_directory ~= nil then
-      -- Use system clangd with custum startup for compile json file
-      opts.root_dir = function() return vim.g.start_directory end
-      opts.cmd = {"clangd", "--background-index", "--compile-commands-dir", vim.g.start_directory}
-    elseif server.name == "sumneko_lua" then
-      local runtime_path = vim.split(package.path, ';')
-      table.insert(runtime_path, 'lua/?.lua')
-      table.insert(runtime_path, 'lua/?/init.lua')
-      opts.settings = {
-        Lua = {
-          runtime = {
-            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-            version = 'LuaJIT',
-            -- Setup your lua path
-            path = runtime_path,
-          },
-          diagnostics = {
-            -- Get the language server to recognize the `vim` global
-            globals = { 'vim' },
-          },
-          workspace = {
-            -- Make the server aware of Neovim runtime files
-            library = vim.api.nvim_get_runtime_file('', true),
-          },
-          -- Do not send telemetry data containing a randomized but unique identifier
-          telemetry = {
-            enable = false,
-          },
-        },
-      }
+  -- clangd function to  get root dir
+  local function get_dir(...)
+    return function(startpath)
+      return vim.g.start_directory;
     end
-    return opts
   end
 
-  -- for _, lsp in ipairs(servers) do
-  --   nvim_lsp[lsp].setup { make_opts(lsp) }
-  -- end
-
-  local lsp_installer = require("nvim-lsp-installer")
-
-  lsp_installer.settings {
-    ui = {
-      icons = {
-        server_installed = "✓",
-        server_pending = "➜",
-        server_uninstalled = "✗"
-      }
-    }
+  -- clangd
+  nvim_lsp.clangd.setup {
+    on_attach = on_attach;
+    capabilities = capabilities;
+    cmd = {"clangd", "--background-index", "--compile-commands-dir", vim.g.start_directory};
+    root_dir = get_dir();
+    single_file_support = false,
   }
-
-  lsp_installer.on_server_ready(function(server)
-    -- This setup() function is exactly the same as
-    -- lspconfig's setup function (:help lspconfig-quickstart)
-    local opts = make_opts(server)
-    server:setup(opts)
-  end)
+  -- python
+  nvim_lsp.pyright.setup {
+    on_attach = on_attach;
+    capabilities = capabilities;
+    settings = {
+      python = {
+        formatting = {
+          provider = 'yapf'
+        },
+        linting = {
+          pytypeEnabled = true
+        }
+      }
+    };
+  }
+  -- rust
+  nvim_lsp.rust_analyzer.setup {
+    on_attach = on_attach;
+    capabilities = capabilities;
+    settings = {
+      ['rust-analyzer'] = {
+        cargo = { allFeatures = true },
+        checkOnSave = {
+          command = 'clippy',
+          extraArgs = { '--no-deps' },
+        },
+      },
+    };
+  }
+  -- bash
+  nvim_lsp.bashls.setup {
+    on_attach = on_attach;
+    capabilities = capabilities;
+  }
 
   -- Set completeopt to have a better completion experience
   vim.o.completeopt = 'menuone,noselect'

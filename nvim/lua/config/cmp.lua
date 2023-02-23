@@ -30,7 +30,7 @@ function M.config()
 
   -- nvim-cmp supports additional completion capabilities
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  local servers = { 'clangd', 'pyright', 'rust_analyzer', 'bashls' }
+  local servers = { 'clangd', 'pyright', 'rust_analyzer', 'bashls', 'cmake' }
   require("mason").setup()
   require("mason-lspconfig").setup { ensure_installed = servers }
   local nvim_lsp = require 'lspconfig'
@@ -66,21 +66,42 @@ function M.config()
     };
   }
   -- rust
-  nvim_lsp.rust_analyzer.setup {
-    on_attach = on_attach;
-    capabilities = capabilities;
-    settings = {
-      ['rust-analyzer'] = {
-        cargo = { allFeatures = true },
-        checkOnSave = {
-          command = 'clippy',
-          extraArgs = { '--no-deps' },
+  local rt = require("rust-tools")
+  rt.setup({
+    server = {
+      on_attach = on_attach;
+      capabilities = capabilities;
+      settings = {
+        ['rust-analyzer'] = {
+          cargo = { allFeatures = true },
+          checkOnSave = {
+            command = 'clippy',
+            extraArgs = { '--no-deps' },
+          },
         },
-      },
-    };
-  }
+      };
+    },
+  })
+  -- nvim_lsp.rust_analyzer.setup {
+  --   on_attach = on_attach;
+  --   capabilities = capabilities;
+  --   settings = {
+  --     ['rust-analyzer'] = {
+  --       cargo = { allFeatures = true },
+  --       checkOnSave = {
+  --         command = 'clippy',
+  --         extraArgs = { '--no-deps' },
+  --       },
+  --     },
+  --   };
+  -- }
   -- bash
   nvim_lsp.bashls.setup {
+    on_attach = on_attach;
+    capabilities = capabilities;
+  }
+  -- cmake
+  nvim_lsp.cmake.setup {
     on_attach = on_attach;
     capabilities = capabilities;
   }

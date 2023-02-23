@@ -2,7 +2,8 @@ return {
   'lewis6991/impatient.nvim',
   -- Theme inspired by Atom
   {
-    'joshdick/onedark.vim',
+    -- 'joshdick/onedark.vim',
+    'shaunsingh/nord.nvim',
     lazy = false,
     priority = 1000,
     init = function() require('config.color').config() end,
@@ -94,7 +95,11 @@ return {
       -- 'hrsh7th/cmp-cmdline',
     },
     config = function() require('config.cmp').config() end,
-    ft = {'c', 'cpp', 'python', 'rust', 'sh' },
+    ft = {'c', 'cpp', 'python', 'rust', 'sh', 'cmake' },
+  },
+  {
+    'simrat39/rust-tools.nvim',
+    ft = { 'rust' },
   },
   -- Debug
   -- {

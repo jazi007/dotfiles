@@ -14,10 +14,16 @@ return {
     dependencies = 'kyazdani42/nvim-web-devicons',
     config = function() require('bufferline').setup() end,
   },
+  -- {
+  --   'famiu/feline.nvim',
+  --   config = function() require('config.feline').config() end,
+  --   lazy = false,
+  -- },
   {
-    'famiu/feline.nvim',
-    config = function() require('config.feline').config() end,
+    'nvim-lualine/lualine.nvim',
+    dependencies = 'kyazdani42/nvim-web-devicons',
     lazy = false,
+    config = function() require('lualine').setup() end,
   },
   -- tpope plugins
   {'tpope/vim-unimpaired', lazy = false},

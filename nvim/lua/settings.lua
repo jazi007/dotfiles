@@ -39,10 +39,10 @@ opt.showmatch         = true      -- highlight matching parenthesis
 opt.foldmethod        = 'indent'  -- enable folding (default 'foldmarker')
 opt.foldenable        = false     -- enable folding (default 'foldmarker')
 -- opt.colorcolumn = '80'         -- line lenght marker at 80 columns
--- opt.showmode          = false      -- show current mode (insert, etc) under the cmdline
--- opt.showcmd           = false      -- show current command under the cmd line
--- opt.cmdheight         = 2         -- cmdline height
--- opt.laststatus        = 2         -- 2 = always show status line (filename, etc)
+opt.showmode          = false      -- show current mode (insert, etc) under the cmdline
+opt.showcmd           = false      -- show current command under the cmd line
+opt.cmdheight         = 0         -- cmdline height
+opt.laststatus        = 2         -- 2 = always show status line (filename, etc)
 -- opt.linespace         = 0         -- font spacing
 opt.ruler             = true      -- show line,col at the cursor pos
 opt.splitright        = true      -- vertical split to the right

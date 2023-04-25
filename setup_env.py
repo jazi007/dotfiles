@@ -39,6 +39,7 @@ def setup_git():
     pmrd = push -o merge_request.create -o merge_request.remove_source_branch -o merge_request.target=sweet400_d2c_frcamadas_master
 [push]
     default = upstream
+    autoSetupRemote = true
 [difftool]
     prompt = false
 [diff]

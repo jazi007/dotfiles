@@ -101,7 +101,8 @@ return {
       -- 'hrsh7th/cmp-cmdline',
     },
     config = function() require('config.cmp').config() end,
-    ft = {'c', 'cpp', 'python', 'rust', 'sh', 'cmake' },
+    event = { "BufReadPre", "BufNewFile" },
+    -- ft = {'c', 'cpp', 'python', 'rust', 'sh', 'cmake' },
   },
   {
     'simrat39/rust-tools.nvim',

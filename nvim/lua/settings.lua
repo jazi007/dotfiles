@@ -18,13 +18,14 @@ local cmd = vim.cmd -- execute Vim commands
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
 g.mapleader = ' '
 g.maplocalleader = ' '
+g.clipboard = ''
 
 --Remap for dealing with word wrap
 vim.api.nvim_set_keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
 vim.api.nvim_set_keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
 
 opt.mouse     = 'a'           -- enable mouse support
-opt.clipboard = 'unnamedplus' -- copy/paste to system clipboard
+-- opt.clipboard = 'unnamedplus' -- copy/paste to system clipboard
 opt.swapfile  = false         -- don't use swapfile
 opt.autoread  = true          -- auto read file if changed outside of vim
 -- recursive :find in current dir

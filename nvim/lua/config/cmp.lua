@@ -73,7 +73,7 @@ function M.config()
       capabilities = capabilities;
       settings = {
         ['rust-analyzer'] = {
-          cargo = { allFeatures = true },
+          cargo = { allFeatures = false },
           checkOnSave = {
             command = 'clippy',
             extraArgs = { '--no-deps' },

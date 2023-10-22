@@ -103,3 +103,6 @@ disabled = false
 # pyenv_version_name = true
 # pyenv_prefix = "pyenv "
 # scan_for_pyfiles = false
+
+[container]
+disabled = true

@@ -130,6 +130,11 @@ if [[ -x "$(command -v nvim)" ]]; then
     # export MANPAGER="nvim -c 'set ft=man' -"
 fi
 
+# auto into tmux session
+if [[ -n "\$PS1" ]] && [[ -z "\$TMUX" ]] && [[ -n "\$SSH_CONNECTION" ]]; then
+    tmux attach-session -t remote || tmux new-session -s remote
+fi
+
 # Starship
 if [[ -x "$(command -v starship)" ]]; then
     export STARSHIP_CONFIG={starship}

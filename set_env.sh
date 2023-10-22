@@ -39,7 +39,7 @@ if [[ ! -x "$(command -v nvim)" ]]; then
         cd $HOME
         mkdir -p $HOME/.local/bin
         cd $HOME/.local/bin
-        curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+        curl -kLO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
         chmod u+x nvim.appimage
         ./nvim.appimage --appimage-extract
         ln -s $PWD/squashfs-root/AppRun $HOME/.local/bin/nvim

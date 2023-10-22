@@ -99,9 +99,7 @@ export HISTSIZE=10000           # save 10000 items in history
 shopt -s histappend             # append history to ~\.bash_history when exiting shell
 
 # proxy
-export http_proxy={http_proxy}
-export https_proxy={https_proxy}
-
+{proxy}
 # aliases
 alias ..='cd ..'
 alias ll='ls -alFh'
@@ -159,18 +157,20 @@ if [ -d "/home/az01754/.cargo/bin" ]; then
     fi
 fi
 """
-    http_proxy = os.getenv("http_proxy", "noproxy")
-    https_proxy = os.getenv("https_proxy", "noproxy")
+    proxy = []
+    http_proxy = os.getenv("http_proxy", None)
+    https_proxy = os.getenv("https_proxy", None)
+    if http_proxy is not None:
+        proxy.append(f"export http_proxy={http_proxy}")
+    if https_proxy is not None:
+        proxy.append(f"export https_proxy={https_proxy}")
+
     starship = os.path.abspath(os.path.join(os.path.dirname(__file__), "starship.toml"))
     # for MSYS make sure to have the correct path
     if os.getenv("MSYSTEM", None) is not None:
         starship = os.popen(f"cygpath {starship}").read().strip()
     with open(home / ".bash_aliases", "w") as f:
-        f.write(
-            __bash.format(
-                http_proxy=http_proxy, https_proxy=https_proxy, starship=starship
-            )
-        )
+        f.write(__bash.format(proxy="\n".join(proxy), starship=starship))
 
 
 def setup_profile(home: Path):

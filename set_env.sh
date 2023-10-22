@@ -80,7 +80,7 @@ if [[ ! -x "$(command -v starship)" ]]; then
         cd $HOME/.local/bin
         curl -kLO https://starship.rs/install.sh
         chmod u+x install.sh
-        ./install.sh -y $HOME/.local/bin
+        ./install.sh -y -b $HOME/.local/bin
     fi
 fi
 

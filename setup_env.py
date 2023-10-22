@@ -106,11 +106,14 @@ export https_proxy={https_proxy}
 alias ..='cd ..'
 alias ll='ls -alFh'
 alias la='ls -A'
+alias lla='ls -Al'
 alias l='ls -CF'
 alias envgrep='env|grep'
 alias hgrep='history|grep'
 alias cgrep='grep --include="*.[ch]"'
 alias sudo='sudo -E'
+alias amn='SOONG_GEN_RUST_PROJECT=1 SOONG_GEN_COMPDB=1 m nothing'
+alias aln='ln -s $ANDROID_BUILD_TOP/out/soong/rust-project.json $ANDROID_BUILD_TOP'
 
 alias callgrind='valgrind --tool=callgrind --dump-instr=yes --cache-sim=yes --branch-sim=yes --cacheuse=yes'
 
@@ -126,7 +129,7 @@ if [[ -x "$(command -v nvim)" ]]; then
         alias nvim="nvr -cc split --remote-wait +'set bufhidden=wipe'"
         export VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
     fi
-    export MANPAGER="nvim -c 'set ft=man' -"
+    # export MANPAGER="nvim -c 'set ft=man' -"
 fi
 
 # Starship
@@ -177,14 +180,7 @@ def setup_profile(home: Path):
         return
     with open(profile, "w") as f:
         f.write(
-            """# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
-fi
-# set PATH so it includes user's private bin if it exists
+            """# set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
@@ -192,6 +188,13 @@ fi
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
+fi
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+	. "$HOME/.bashrc"
+    fi
 fi
 """
         )

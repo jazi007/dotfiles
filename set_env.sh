@@ -71,6 +71,18 @@ else
     echo -e '/!\ python not found cannot setup gitconfig and bash_aliases /!\'
 fi
 
+# Install starship
+if [[ ! -x "$(command -v starship)" ]]; then
+    do_install "Install starship"
+    if [[ $? -ne 0 ]]; then
+        cd $HOME
+        mkdir -p $HOME/.local/bin
+        cd $HOME/.local/bin
+        curl -kLO https://starship.rs/install.sh
+        chmod u+x install.sh
+        ./install.sh -y $HOME/.local/bin
+    fi
+fi
 
 # some install for lsp
 # sudo apt-get install nodejs npm

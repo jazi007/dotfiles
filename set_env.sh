@@ -31,7 +31,22 @@ fi
 
 
 # create symlinks
-if [[ -x "$(command -v nvim)" ]]; then
+setup_nvim=true
+if [[ ! -x "$(command -v nvim)" ]]; then
+    setup_nvim=false
+    do_install "Install neovim"
+    if [[ $? -ne 0 ]]; then
+        cd $HOME
+        mkdir -p $HOME/.local/bin
+        cd $HOME/.local/bin
+        curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+        chmod u+x nvim.appimage
+        ./nvim.appimage --appimage-extract
+        ln -s $PWD/squashfs-root/AppRun $HOME/.local/bin/nvim
+        setup_nvim=true
+    fi
+fi
+if $setup_nvim; then
     do_install "Setup neovim"
     if [[ $? -ne 0 ]]; then
         printf "\tsetup of neovim on-going ...\n"

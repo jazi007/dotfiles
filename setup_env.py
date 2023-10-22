@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 
 def setup_git():
@@ -80,13 +81,12 @@ def setup_git():
     user = input(f"User Name [{default_user}]:")
     if not user:
         user = default_user
-    home = os.getenv('HOME', '')
-    with open(os.path.join(home, '.gitconfig'), 'w') as f:
+    home = os.getenv("HOME", "")
+    with open(os.path.join(home, ".gitconfig"), "w") as f:
         f.write(__git_config.format(user=user))
 
 
-
-def setup_bash():
+def setup_bash(home: Path):
     __bash = r"""#!/bin/bash
 
 ########################################
@@ -156,23 +156,60 @@ if [ -d "/home/az01754/.cargo/bin" ]; then
     fi
 fi
 """
-    http_proxy = os.getenv('http_proxy', 'noproxy')
-    https_proxy = os.getenv('https_proxy', 'noproxy')
+    http_proxy = os.getenv("http_proxy", "noproxy")
+    https_proxy = os.getenv("https_proxy", "noproxy")
     starship = os.path.abspath(os.path.join(os.path.dirname(__file__), "starship.toml"))
     # for MSYS make sure to have the correct path
-    if os.getenv('MSYSTEM', None) is not None:
+    if os.getenv("MSYSTEM", None) is not None:
         starship = os.popen(f"cygpath {starship}").read().strip()
-    home = os.getenv('HOME', '')
-    with open(os.path.join(home, '.bash_aliases'), 'w') as f:
-        f.write(__bash.format(http_proxy=http_proxy, https_proxy=https_proxy, starship=starship))
+    with open(home / ".bash_aliases", "w") as f:
+        f.write(
+            __bash.format(
+                http_proxy=http_proxy, https_proxy=https_proxy, starship=starship
+            )
+        )
 
 
-def setup():
+def setup_profile(home: Path):
+    profile = home / ".profile"
+    if profile.exists():
+        print(f"{profile} exist skipping generation ...")
+        return
+    with open(profile, "w") as f:
+        f.write(
+            """# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+	. "$HOME/.bashrc"
+    fi
+fi
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+"""
+        )
+
+
+def setup(home: Path):
     setup_git()
-    setup_bash()
+    setup_bash(home)
+    setup_profile(home)
 
-if __name__ == '__main__':
-    home = os.getenv('HOME', None)
+
+if __name__ == "__main__":
+    home = os.getenv("HOME", None)
     if home is None:
         raise ValueError("HOME env not found")
-    setup()
+    home = Path(home)
+    if not home.exists():
+        raise FileExistsError(f"{home} does not exist")
+    if not home.is_dir():
+        raise TypeError(f"{home} is not a directory")
+    setup(home)

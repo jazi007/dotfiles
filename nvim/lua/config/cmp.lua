@@ -30,6 +30,7 @@ function M.config()
 
   -- nvim-cmp supports additional completion capabilities
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  capabilities.textDocument.completion.completionItem.snippetSupport = false
   local servers = { 'clangd', 'pyright', 'rust_analyzer', 'bashls', 'cmake' }
   require("mason").setup()
   require("mason-lspconfig").setup { ensure_installed = servers }

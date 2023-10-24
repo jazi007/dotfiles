@@ -131,9 +131,9 @@ if [[ -x "$(command -v nvim)" ]]; then
 fi
 
 # auto into tmux session
-if [[ -n "\$PS1" ]] && [[ -z "\$TMUX" ]] && [[ -n "\$SSH_CONNECTION" ]]; then
-    tmux attach-session -t remote || tmux new-session -s remote
-fi
+# if [[ -n "\$PS1" ]] && [[ -z "\$TMUX" ]] && [[ -n "\$SSH_CONNECTION" ]]; then
+#     tmux attach-session -t remote || tmux new-session -s remote
+# fi
 
 # Starship
 if [[ -x "$(command -v starship)" ]]; then
@@ -151,8 +151,8 @@ if [[ -x "$(command -v bumpversion)" ]]; then
 fi
 
 # cargo
-if [ -d "/home/az01754/.cargo/bin" ]; then
-    export PATH=$PATH:/home/az01754/.cargo/bin
+if [ -d "$HOME/.cargo/bin" ]; then
+    export PATH=$PATH:$HOME/.cargo/bin
     if [[ -x "$(command -v exa)" ]]; then
         alias ll="exa -1 --icons -l --git-ignore"
         alias lla="exa -1 --icons -l --git-ignore -a"

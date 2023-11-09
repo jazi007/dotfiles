@@ -110,7 +110,7 @@ alias envgrep='env|grep'
 alias hgrep='history|grep'
 alias cgrep='grep --include="*.[ch]"'
 alias sudo='sudo -E'
-alias amn='SOONG_GEN_RUST_PROJECT=1 SOONG_GEN_COMPDB=1 m nothing'
+alias amn='export SOONG_GEN_RUST_PROJECT=1 && export SOONG_GEN_COMPDB=1 && m nothing'
 alias aln='ln -s $ANDROID_BUILD_TOP/out/soong/rust-project.json $ANDROID_BUILD_TOP'
 
 alias callgrind='valgrind --tool=callgrind --dump-instr=yes --cache-sim=yes --branch-sim=yes --cacheuse=yes'
@@ -201,6 +201,9 @@ if [ -n "$BASH_VERSION" ]; then
 	. "$HOME/.bashrc"
     fi
 fi
+# AAOSP
+export SOONG_GEN_RUST_PROJECT=1
+export SOONG_GEN_COMPDB=1
 """
         )
 

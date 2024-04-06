@@ -111,7 +111,7 @@ return {
   {
       'saecki/crates.nvim',
       tag = 'stable',
-      config = function() require('crates').setup() end,
+      config = function() require('config.crates').config() end,
       ft = { 'toml' },
   },
   -- {

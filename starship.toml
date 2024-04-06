@@ -104,5 +104,5 @@ disabled = false
 # pyenv_prefix = "pyenv "
 # scan_for_pyfiles = false
 
-[container]
-disabled = true
+# [container]
+# disabled = true

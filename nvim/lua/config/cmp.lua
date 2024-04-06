@@ -2,10 +2,12 @@ local M = {}
 
 function M.config()
   -- LSP settings
-  local on_attach = function(_, bufnr)
+  local on_attach = function(client, bufnr)
     local map = vim.api.nvim_buf_set_keymap
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
+    -- if client.server_capabilities.inlayHintProvider then
+    --   vim.lsp.inlay_hint(bufnr, true)
+    -- end
     local opts = { noremap = true, silent = true }
     map(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     map(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
@@ -67,6 +69,30 @@ function M.config()
     };
   }
   -- rust
+  -- vim.g.rustaceanvim = {
+  --   -- Plugin configuration
+  --   tools = {},
+  --   -- LSP configuration
+  --   server = {
+  --     on_attach = on_attach,
+  --     default_settings = {
+  --       ['rust-analyzer'] = {
+  --         cargo = { allFeatures = false },
+  --         checkOnSave = {
+  --           command = 'clippy',
+  --           extraArgs = { '--no-deps' },
+  --         },
+  --         diagnostics = {
+  --           enable = true,
+  --           disabled = {"unresolved-proc-macro"},
+  --           enableExperimental = true,
+  --         },
+  --       },
+  --     },
+  --   },
+  --   -- DAP configuration
+  --   dap = {},
+  -- }
   local rt = require("rust-tools")
   rt.setup({
     server = {
@@ -78,6 +104,11 @@ function M.config()
           checkOnSave = {
             command = 'clippy',
             extraArgs = { '--no-deps' },
+          },
+          diagnostics = {
+            enable = true,
+            disabled = {"unresolved-proc-macro"},
+            enableExperimental = true,
           },
         },
       };

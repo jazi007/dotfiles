@@ -108,6 +108,17 @@ return {
     'simrat39/rust-tools.nvim',
     ft = { 'rust' },
   },
+  {
+      'saecki/crates.nvim',
+      tag = 'stable',
+      config = function() require('crates').setup() end,
+      ft = { 'toml' },
+  },
+  -- {
+  --   'mrcjkb/rustaceanvim',
+  --   -- version = '^4', -- Recommended
+  --   ft = { 'rust' },
+  -- }
   -- Debug
   -- {
   --   'mfussenegger/nvim-dap',

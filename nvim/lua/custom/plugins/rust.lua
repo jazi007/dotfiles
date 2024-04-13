@@ -1,13 +1,5 @@
 return {
 	"mrcjkb/rustaceanvim",
-	dependencies = {
-		"nvim-lua/plenary.nvim",
-		{
-			-- FIX: https://github.com/mrcjkb/rustaceanvim?tab=readme-ov-file#where-are-inlay-hints
-			"lvimuser/lsp-inlayhints.nvim",
-			opts = {},
-		},
-	},
 	version = "^4", -- Recommended
 	ft = { "rust" },
 	config = function()
@@ -22,7 +14,11 @@ return {
 			},
 			server = {
 				on_attach = function(client, bufnr)
-					require("lsp-inlayhints").on_attach(client, bufnr)
+					if client.server_capabilities.inlayHintProvider then
+						-- TODO: check why this is not correctly visible with nord
+						vim.cmd("highlight LspInlayHint guifg=white")
+						vim.lsp.inlay_hint(bufnr, true)
+					end
 				end,
 			},
 		}

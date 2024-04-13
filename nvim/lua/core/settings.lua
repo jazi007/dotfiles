@@ -16,7 +16,7 @@ local cmd = vim.cmd -- execute Vim commands
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
 g.mapleader = " "
 g.maplocalleader = " "
-g.clipboard = ""
+-- g.clipboard = ""
 
 --Remap for dealing with word wrap
 vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })

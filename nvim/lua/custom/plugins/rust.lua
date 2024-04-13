@@ -16,8 +16,8 @@ return {
 				on_attach = function(client, bufnr)
 					if client.server_capabilities.inlayHintProvider then
 						-- TODO: check why this is not correctly visible with nord
-						vim.cmd("highlight LspInlayHint guifg=white")
-						vim.lsp.inlay_hint(bufnr, true)
+						vim.cmd("highlight LspInlayHint guifg=#B3B6B7")
+						vim.lsp.inlay_hint.enable(bufnr, true)
 					end
 				end,
 			},

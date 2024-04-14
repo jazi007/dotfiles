@@ -84,6 +84,20 @@ return {
 					},
 				})
 			end,
+			["clangd"] = function()
+				-- clangd function to  get root dir
+				local function get_dir(...)
+					return function(startpath)
+						return vim.g.start_directory
+					end
+				end
+				lspconfig["clangd"].setup({
+					capabilities = capabilities,
+					cmd = { "clangd", "--background-index", "--compile-commands-dir", vim.g.start_directory },
+					root_dir = get_dir(),
+					single_file_support = false,
+				})
+			end,
 			["rust_analyzer"] = function() end,
 		})
 	end,

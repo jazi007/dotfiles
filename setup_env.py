@@ -97,6 +97,7 @@ def setup_bash(home: Path):
 export HISTCONTROL=erasedups    # when adding an item to history, delete itentical commands upstream
 export HISTSIZE=10000           # save 10000 items in history
 shopt -s histappend             # append history to ~\.bash_history when exiting shell
+export PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 # proxy
 {proxy}

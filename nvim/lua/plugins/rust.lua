@@ -1,6 +1,7 @@
 return {
   "mrcjkb/rustaceanvim",
-  version = "^4", -- Recommended
+  -- version = "4.22.8", -- Recommended
+  version = "4", -- Recommended
   ft = { "rust" },
   config = function()
     vim.g.rustaceanvim = {
@@ -20,6 +21,21 @@ return {
             vim.lsp.inlay_hint.enable(true)
           end
         end,
+        -- default_settings = {
+        --   -- rust-analyzer language server configuration
+        --   ["rust-analyzer"] = {
+        --     cargo = {
+        --       loadOutDirsFromCheck = true,
+        --       allFeatures = false,
+        --     },
+        --     checkOnSave = {
+        --       allFeatures = false,
+        --     },
+        --     procMacro = {
+        --       enable = true,
+        --     },
+        --   },
+        -- },
       },
     }
   end,

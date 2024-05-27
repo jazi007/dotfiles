@@ -35,7 +35,7 @@ def setup_git():
     sbs = submodule sync
     sbf = submodule foreach
     pmrm = push -o merge_request.create -o merge_request.remove_source_branch -o merge_request.target=master
-    pmrs = push -o merge_request.create -o merge_request.remove_source_branch -o merge_request.target=sqrt_master
+    pmrs = push -o merge_request.create -o merge_request.remove_source_branch -o merge_request.target=sweet500_sdv_master
     pmra = push -o merge_request.create -o merge_request.remove_source_branch -o merge_request.target=ad2gen2_master
     pmrd = push -o merge_request.create -o merge_request.remove_source_branch -o merge_request.target=sweet400_d2c_frcamadas_master
 [push]
@@ -154,9 +154,10 @@ fi
 # cargo
 if [ -d "$HOME/.cargo/bin" ]; then
     export PATH=$PATH:$HOME/.cargo/bin
-    if [[ -x "$(command -v exa)" ]]; then
-        alias ll="exa -1 --icons -l --git-ignore"
-        alias lla="exa -1 --icons -l --git-ignore -a"
+    if [[ -x "$(command -v eza)" ]]; then
+        alias ll="eza -1 --icons -l --git-ignore"
+        alias lla="eza -1 --icons -l --git-ignore -a"
+        alias tree="eza --icons -T"
     fi
     if [[ -x "$(command -v bat)" ]]; then
         alias cat="bat"

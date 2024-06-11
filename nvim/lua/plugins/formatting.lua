@@ -13,7 +13,7 @@ return {
         python = { "ruff" },
       },
       format_on_save = {
-        lsp_fallback = true,
+        lsp_fallback = false,
         async = false,
         timeout_ms = 1000,
       },

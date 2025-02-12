@@ -34,6 +34,9 @@ return {
         --     procMacro = {
         --       enable = true,
         --     },
+        --     diagnostic = {
+        --       refreshSupport = false,
+        --     },
         --   },
         -- },
       },

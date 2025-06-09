@@ -8,11 +8,11 @@ return {
 	},
 	config = function()
 		-- import lspconfig plugin
-		local lspconfig = require("lspconfig")
+		-- local lspconfig = require("lspconfig")
 		-- import mason_lspconfig plugin
-		local mason_lspconfig = require("mason-lspconfig")
+		-- local mason_lspconfig = require("mason-lspconfig")
 		-- import cmp-nvim-lsp plugin
-		local cmp_nvim_lsp = require("cmp_nvim_lsp")
+		-- local cmp_nvim_lsp = require("cmp_nvim_lsp")
 		local keymap = vim.keymap -- for conciseness
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -50,7 +50,7 @@ return {
 			end,
 		})
 		-- used to enable autocompletion (assign to every lsp server config)
-		local capabilities = cmp_nvim_lsp.default_capabilities()
+		-- local capabilities = cmp_nvim_lsp.default_capabilities()
 
 		-- Change the Diagnostic symbols in the sign column (gutter)
 		-- (not in youtube nvim video)
@@ -60,45 +60,45 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
-		mason_lspconfig.setup_handlers({
-			-- default handler for installed servers
-			function(server_name)
-				lspconfig[server_name].setup({
-					capabilities = capabilities,
-				})
-			end,
-			["lua_ls"] = function()
-				-- configure lua server (with special settings)
-				lspconfig["lua_ls"].setup({
-					capabilities = capabilities,
-					settings = {
-						Lua = {
-							-- make the language server recognize "vim" global
-							diagnostics = {
-								globals = { "vim" },
-							},
-							completion = {
-								callSnippet = "Replace",
-							},
-						},
-					},
-				})
-			end,
-			["clangd"] = function()
-				-- clangd function to  get root dir
-				local function get_dir(...)
-					return function(startpath)
-						return vim.g.start_directory
-					end
-				end
-				lspconfig["clangd"].setup({
-					capabilities = capabilities,
-					cmd = { "clangd", "--background-index", "--compile-commands-dir", vim.g.start_directory },
-					root_dir = get_dir(),
-					single_file_support = false,
-				})
-			end,
-			["rust_analyzer"] = function() end,
-		})
+		-- mason_lspconfig.setup_handlers({
+		-- 	-- default handler for installed servers
+		-- 	function(server_name)
+		-- 		lspconfig[server_name].setup({
+		-- 			capabilities = capabilities,
+		-- 		})
+		-- 	end,
+		-- 	["lua_ls"] = function()
+		-- 		-- configure lua server (with special settings)
+		-- 		lspconfig["lua_ls"].setup({
+		-- 			capabilities = capabilities,
+		-- 			settings = {
+		-- 				Lua = {
+		-- 					-- make the language server recognize "vim" global
+		-- 					diagnostics = {
+		-- 						globals = { "vim" },
+		-- 					},
+		-- 					completion = {
+		-- 						callSnippet = "Replace",
+		-- 					},
+		-- 				},
+		-- 			},
+		-- 		})
+		-- 	end,
+		-- 	["clangd"] = function()
+		-- 		-- clangd function to  get root dir
+		-- 		local function get_dir(...)
+		-- 			return function(startpath)
+		-- 				return vim.g.start_directory
+		-- 			end
+		-- 		end
+		-- 		lspconfig["clangd"].setup({
+		-- 			capabilities = capabilities,
+		-- 			cmd = { "clangd", "--background-index", "--compile-commands-dir", vim.g.start_directory },
+		-- 			root_dir = get_dir(),
+		-- 			single_file_support = false,
+		-- 		})
+		-- 	end,
+		-- 	["rust_analyzer"] = function() end,
+		-- })
 	end,
 }

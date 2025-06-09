@@ -58,14 +58,14 @@ opt.synmaxcol = 240 -- max column for syntax highlight
 -- `xfd -fn "-misc-fixed-medium-r-semicondensed-*-13-*-*-*-*-*-iso10646-1"`
 -- input special chars with the sequence <C-v-u> followed by the hex code
 opt.listchars = {
-	tab = "→ ",
-	eol = "↲",
-	nbsp = "␣",
-	lead = "␣",
-	space = "␣",
-	trail = "•",
-	extends = "⟩",
-	precedes = "⟨",
+  tab = "→ ",
+  eol = "↲",
+  nbsp = "␣",
+  lead = "␣",
+  space = "␣",
+  trail = "•",
+  extends = "⟩",
+  precedes = "⟨",
 }
 opt.showbreak = "↪ "
 
@@ -156,30 +156,32 @@ cmd([[
 -----------------------------------------------------------
 -- disable builtins plugins
 local disabled_built_ins = {
-	"netrw",
-	"netrwPlugin",
-	"netrwSettings",
-	"netrwFileHandlers",
-	"gzip",
-	"zip",
-	"zipPlugin",
-	"tar",
-	"tarPlugin",
-	"getscript",
-	"getscriptPlugin",
-	"vimball",
-	"vimballPlugin",
-	"2html_plugin",
-	"logipat",
-	"rrhelper",
-	"spellfile_plugin",
-	"matchit",
+  "netrw",
+  "netrwPlugin",
+  "netrwSettings",
+  "netrwFileHandlers",
+  "gzip",
+  "zip",
+  "zipPlugin",
+  "tar",
+  "tarPlugin",
+  "getscript",
+  "getscriptPlugin",
+  "vimball",
+  "vimballPlugin",
+  "2html_plugin",
+  "logipat",
+  "rrhelper",
+  "spellfile_plugin",
+  "matchit",
 }
 
 for _, plugin in pairs(disabled_built_ins) do
-	g["loaded_" .. plugin] = 1
+  g["loaded_" .. plugin] = 1
 end
 
+-- Disable auto format
+vim.g.disable_autoformat = 0
 -- Disable providers we do not care a about
 vim.g.loaded_python_provider = 0
 vim.g.loaded_ruby_provider = 0

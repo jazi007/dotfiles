@@ -118,6 +118,7 @@ alias callgrind='valgrind --tool=callgrind --dump-instr=yes --cache-sim=yes --br
 
 alias gmco='br=$(git rev-parse --abbrev-ref HEAD) && git submodule foreach "if [ ! -z \"\$(git branch -r | grep $br)\" ]; then git checkout $br ; fi" && unset br'
 alias gmcor='br=$(git rev-parse --abbrev-ref HEAD) && git submodule foreach "if [ ! -z \"\$(git branch -r | grep $br)\" ]; then git fetch; git checkout $br ; git reset --hard origin/$br; fi" && unset br'
+alias termreset="tput cnorm"
 
 # vim / nvim / nvr
 if [[ -x "$(command -v nvim)" ]]; then

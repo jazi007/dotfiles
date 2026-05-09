@@ -1,11 +1,19 @@
-{ config, pkgs, lib, flakeDir, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  flakeDir,
+  ...
+}:
 {
   imports = [
     ./tools.nix
     ./git.nix
     ./starship.nix
     ./tmux.nix
+    ./bash.nix
     ./nushell.nix
+    ./direnv.nix
   ];
 
   # Let home-manager manage itself

@@ -1,10 +1,16 @@
-{ config, pkgs, lib, flakeDir, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  flakeDir,
+  ...
+}:
 {
   programs.starship = {
     enable = true;
     # Live symlink to the repo's starship.toml — edit the file and changes
     # take effect immediately without re-running home-manager switch.
-    enableBashIntegration    = true;
+    enableBashIntegration = true;
     enableNushellIntegration = true;
   };
 

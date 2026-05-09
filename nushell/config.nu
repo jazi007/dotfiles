@@ -55,7 +55,7 @@ $env.config = {
       mode:     [emacs, vi_normal, vi_insert]
       event: {
         send: ExecuteHostCommand
-        cmd:  "commandline (history | each { |it| $it.command } | reverse | uniq | str join (char nl) | fzf --height 40% --reverse --border | str trim)"
+        cmd:  "commandline edit (history | each { |it| $it.command } | reverse | uniq | str join (char nl) | fzf --height 40% --reverse --border | str trim)"
       }
     }
     # CTRL-T: fzf file picker
@@ -66,14 +66,13 @@ $env.config = {
       mode:     [emacs, vi_normal, vi_insert]
       event: {
         send: ExecuteHostCommand
-        cmd:  "commandline -i (fd --type f --hidden --exclude .git | fzf --height 40% --preview 'bat --color=always {}' --border | str trim)"
+        cmd:  "commandline edit (fd --type f --hidden --exclude .git | fzf --height 40% --preview 'bat --color=always {}' --border | str trim)"
       }
     }
   ]
 }
 
 # ── Local overrides (machine-specific, not in repo) ───────────────────────────
-# Create ~/.config/nushell/local.nu for proxy settings, work-specific aliases, etc.
-if ($"($env.HOME)/.config/nushell/local.nu" | path exists) {
-  source ~/.config/nushell/local.nu
-}
+# ~/.config/nushell/local.nu is created empty by home-manager on first run.
+# Add proxy settings, work-specific aliases, etc. there.
+source ~/.config/nushell/local.nu

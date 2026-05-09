@@ -9,7 +9,12 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+    }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -18,10 +23,10 @@
       # No hardcoded usernames. These are read from the environment at eval time.
       # Always run with: home-manager switch --flake .#default --impure
       # ---------------------------------------------------------------------------
-      username    = builtins.getEnv "USER";
-      homeDir     = builtins.getEnv "HOME";
+      username = builtins.getEnv "USER";
+      homeDir = builtins.getEnv "HOME";
       # Absolute path of this repo on disk — used for live symlinks (edit-in-place)
-      flakeDir    = toString ./.;
+      flakeDir = toString ./.;
     in
     {
       homeConfigurations.default = home-manager.lib.homeManagerConfiguration {
@@ -33,11 +38,14 @@
         modules = [
           # Identity — sourced entirely from env, never hardcoded
           {
-            home.username      = username;
+            home.username = username;
             home.homeDirectory = homeDir;
           }
           ./home/default.nix
         ];
       };
+
+      # `nix fmt` formats all .nix files in the repo using the RFC-style formatter.
+      formatter.${system} = pkgs.nixfmt-rfc-style;
     };
 }

@@ -2,11 +2,13 @@
 # Managed by dotfiles. Do not edit directly; edit nushell/env.nu in the repo.
 
 # ── PATH ─────────────────────────────────────────────────────────────────────
+# Keep inherited PATH, move user-local bins to the end so nix profile wins.
 $env.PATH = (
   $env.PATH
   | split row (char esep)
-  | prepend $"($env.HOME)/.local/bin"
-  | prepend $"($env.HOME)/.cargo/bin"
+  | where { |p| $p != $"($env.HOME)/.cargo/bin" and $p != $"($env.HOME)/.local/bin" }
+  | append $"($env.HOME)/.local/bin"
+  | append $"($env.HOME)/.cargo/bin"
   | uniq
 )
 

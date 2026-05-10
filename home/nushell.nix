@@ -18,6 +18,19 @@
   xdg.configFile."nushell/aliases.nu".source =
     config.lib.file.mkOutOfStoreSymlink "${flakeDir}/nushell/aliases.nu";
 
+  # Nord color theme for nushell — sourced from config.nu via $nu.data-dir/vendor.
+  # nu_scripts ships many themes; swap "nord" for gruvbox, catppuccin, etc.
+  xdg.configFile."nushell/themes/nord.nu".source =
+    let
+      nu_scripts = pkgs.fetchFromGitHub {
+        owner = "nushell";
+        repo = "nu_scripts";
+        rev = "main";
+        sha256 = "sha256-t8OCSDI7MqA9Q9Tv4mjd/yRac2SZvhX2x8rfcbIUT9o=";
+      };
+    in
+    "${nu_scripts}/themes/nu-themes/nord.nu";
+
   # Generate zoxide init file for nushell.
   home.activation.zoxideNushell = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     ${pkgs.zoxide}/bin/zoxide init nushell > "$HOME/.zoxide.nu"

@@ -5,6 +5,7 @@
 set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export DOTFILES_DIR
 
 echo ""
 echo "╔══════════════════════════════════════╗"
@@ -64,10 +65,10 @@ echo ""
 # ── Apply home-manager config ─────────────────────────────────────────────────
 cd "$DOTFILES_DIR"
 if command -v home-manager &> /dev/null; then
-    home-manager switch --flake .#default --impure
+    home-manager switch --flake .#default --impure -b bak
 else
     # First-time bootstrap: home-manager not yet in PATH
-    nix run github:nix-community/home-manager -- switch --flake .#default --impure
+    nix run github:nix-community/home-manager -- switch --flake .#default --impure -b bak
 fi
 
 echo ""

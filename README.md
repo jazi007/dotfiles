@@ -61,7 +61,8 @@ nix flake check
 nix flake update
 
 # 4. Apply locally and smoke-test
-home-manager switch --flake .#default --impure
+# bootstrap.sh exports DOTFILES_DIR so mkOutOfStoreSymlink creates live repo symlinks
+./bootstrap.sh
 
 # 5. Commit
 git commit -m "feat: ..."

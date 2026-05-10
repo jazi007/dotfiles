@@ -25,8 +25,17 @@
       # ---------------------------------------------------------------------------
       username = builtins.getEnv "USER";
       homeDir = builtins.getEnv "HOME";
-      # Absolute path of this repo on disk — used for live symlinks (edit-in-place)
-      flakeDir = toString ./.;
+      # Real on-disk path of this repo — required by mkOutOfStoreSymlink.
+      # Priority: explicit $DOTFILES_DIR env var → self.outPath (nix flake source).
+      # self.outPath is the nix store copy of the source, BUT when the flake is
+      # loaded from a local path (path:...) with --impure it equals the real dir.
+      # The clean solution: require users to set DOTFILES_DIR when outPath is a
+      # store path. bootstrap.sh exports it automatically.
+      flakeDir =
+        let
+          d = builtins.getEnv "DOTFILES_DIR";
+        in
+        if d != "" then d else toString self.outPath;
     in
     {
       homeConfigurations.default = home-manager.lib.homeManagerConfiguration {
@@ -46,6 +55,6 @@
       };
 
       # `nix fmt` formats all .nix files in the repo using the RFC-style formatter.
-      formatter.${system} = pkgs.nixfmt-rfc-style;
+      formatter.${system} = pkgs.nixfmt;
     };
 }

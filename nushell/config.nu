@@ -4,10 +4,21 @@
 # ── Aliases ───────────────────────────────────────────────────────────────────
 source ~/.config/nushell/aliases.nu
 
+# ── Theme ─────────────────────────────────────────────────────────────────────
+# Swap nord.nu for another file in ~/.config/nushell/themes/ to change theme.
+use ~/.config/nushell/themes/nord.nu *
+
 # ── Zoxide (smart cd) ─────────────────────────────────────────────────────────
 # home-manager generates this file via: zoxide init nushell | save -f ~/.zoxide.nu
 if ($"($env.HOME)/.zoxide.nu" | path exists) {
   source ~/.zoxide.nu
+}
+
+# ── Carapace (external completions: cargo, git, docker, …) ──────────────────
+let carapace_completer = {|spans: list<string>|
+  carapace $spans.0 nushell ...$spans
+  | from json
+  | if ($in | default [] | where value =~ '^-.*ERR$' | is-empty) { $in } else { null }
 }
 
 # ── History ───────────────────────────────────────────────────────────────────
@@ -27,11 +38,15 @@ $env.config = {
     external: {
       enable:      true
       max_results: 100
+      completer:   $carapace_completer
     }
   }
 
   # ── Editor ──────────────────────────────────────────────────────────────────
   edit_mode: "vi"   # vi keybindings — matches nvim workflow
+
+  # ── Theme ───────────────────────────────────────────────────────────────────
+  color_config: (nord)
 
   # ── Display ─────────────────────────────────────────────────────────────────
   show_banner: false

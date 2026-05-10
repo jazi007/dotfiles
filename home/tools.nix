@@ -38,6 +38,9 @@
     unzip
     jq # JSON processor
     yq-go # YAML processor
+
+    # ── Shell completions ───────────────────────────────────────────────────────
+    carapace # universal external completer (cargo, git, docker, kubectl, ...)
   ];
 
   # ── fzf shell integration ────────────────────────────────────────────────────

@@ -1,9 +1,9 @@
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
+  branch = "main",
   lazy = true,
   config = function()
-    require("nvim-treesitter.configs").setup({
-      textobjects = {
+    require("nvim-treesitter-textobjects").setup({
         select = {
           enable = true,
 
@@ -92,7 +92,6 @@ return {
             ["[L"] = { query = "@loop.outer", desc = "Prev loop end" },
           },
         },
-      },
     })
 
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")

@@ -46,11 +46,9 @@ return {
 		lazygit = { enabled = true },
 
 		-- ── Indent guides ─────────────────────────────────────────────────────
-		indent = {
-			enabled   = true,
-			animate   = { enabled = true },
-			scope     = { enabled = true },
-		},
+		-- Disabled: snacks.scope calls treesitter node:range() which crashes on
+		-- Neovim 0.12.2. Re-enable once snacks.nvim ships a compat fix.
+		indent = { enabled = false },
 
 		-- ── Word highlighter (highlights all occurrences of word under cursor) ─
 		words = { enabled = true },

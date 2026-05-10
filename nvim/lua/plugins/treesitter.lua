@@ -1,27 +1,17 @@
+-- nvim-treesitter master branch is archived and incompatible with Neovim 0.12+.
+-- The `main` branch is the maintained rewrite with the new API.
 return {
 	"nvim-treesitter/nvim-treesitter",
-	event = { "BufReadPre", "BufNewFile" },
+	branch = "main",
 	build = ":TSUpdate",
+	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
-		"windwp/nvim-ts-autotag",
+		{ "windwp/nvim-ts-autotag", opts = {} },
 	},
 	config = function()
-		-- import nvim-treesitter plugin
-		local treesitter = require("nvim-treesitter.configs")
-
-		-- configure treesitter
-		treesitter.setup({ -- enable syntax highlighting
-			highlight = {
-				enable = true,
-			},
-			-- enable indentation
-			indent = { enable = true },
-			-- enable autotagging (w/ nvim-ts-autotag plugin)
-			autotag = {
-				enable = true,
-			},
-			-- ensure these language parsers are installed
-			ensure_installed = {
+		-- main branch API: require("nvim-treesitter").setup(), not configs.setup()
+		require("nvim-treesitter").setup({
+			ensure_install = {
 				"json",
 				"yaml",
 				"markdown",
@@ -35,15 +25,8 @@ return {
 				"c",
 				"rust",
 			},
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<C-space>",
-					node_incremental = "<C-space>",
-					scope_incremental = false,
-					node_decremental = "<bs>",
-				},
-			},
 		})
+		-- incremental selection (still supported in main)
+		vim.keymap.set("n", "<C-space>", ":TSIncrementalSelectionInit<CR>", { silent = true })
 	end,
 }

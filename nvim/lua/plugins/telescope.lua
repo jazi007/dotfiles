@@ -1,6 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
-  branch = "0.1.x",
+  branch = "master",
   dependencies = {
     "nvim-lua/plenary.nvim",
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -26,6 +26,11 @@ return {
     telescope.setup({
       defaults = {
         path_display = { "smart" },
+        -- ft_to_lang was removed in Neovim 0.12; disable TS previewer highlighting
+        -- until telescope.nvim ships a compat fix.
+        preview = {
+          treesitter = false,
+        },
         mappings = {
           i = {
             ["<C-k>"] = actions.move_selection_previous, -- move to prev result

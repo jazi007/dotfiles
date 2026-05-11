@@ -32,12 +32,24 @@
     nerd-fonts.symbols-only # Symbols-only fallback for any terminal font
 
     # ── Build / misc ───────────────────────────────────────────────────────────
+    just # modern command runner (Justfile, like make but simpler)
+    watchexec # run commands on file change — pairs well with just
     gnumake
     curl
     wget
     unzip
     jq # JSON processor
     yq-go # YAML processor
+
+    # ── Secrets (no account, direnv-friendly) ─────────────────────────────────
+    rage # Rust impl of age encryption — encrypt with SSH key, decrypt in .envrc
+
+    # ── System / process inspection ────────────────────────────────────────────
+    dust # intuitive du replacement with visual tree
+    duf # modern df — disk usage per mount
+    procs # modern ps with color and search
+    hyperfine # CLI benchmarking tool
+    tokei # fast code line counter
 
     # ── Shell completions ───────────────────────────────────────────────────────
     carapace # universal external completer (cargo, git, docker, kubectl, ...)

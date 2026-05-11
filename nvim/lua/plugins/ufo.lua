@@ -11,17 +11,11 @@ return {
 		end, desc = "Peek fold / hover" },
 	},
 	opts = {
-		-- Provider priority: LSP first (best semantics), then treesitter, then indent
+		-- Provider priority: LSP first, then indent.
+		-- Treesitter provider crashes on Neovim 0.12 (node:range() API changed);
+		-- skip it until nvim-ufo ships a compat fix.
 		provider_selector = function(bufnr, filetype, buftype)
-			local lsp_map = {
-				lua    = { "lsp", "treesitter" },
-				rust   = { "lsp", "treesitter" },
-				python = { "lsp", "treesitter" },
-				c      = { "lsp", "treesitter" },
-				cpp    = { "lsp", "treesitter" },
-				go     = { "lsp", "treesitter" },
-			}
-			return lsp_map[filetype] or { "treesitter", "indent" }
+			return { "lsp", "indent" }
 		end,
 
 		-- Show folded line count: "⋯ 12 lines"

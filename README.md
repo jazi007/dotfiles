@@ -102,6 +102,53 @@ After bootstrap completes:
 2. Set nushell as your default shell: `chsh -s $(which nu)`
 3. For machine-specific env vars (proxy, work aliases): create `~/.config/nushell/local.nu`
 
+### Secrets management (rage)
+
+Secrets (API tokens, registry credentials) are encrypted with [rage](https://github.com/str4d/rage) — a Rust implementation of the `age` encryption format. No account, no daemon, works offline. Encrypted files can safely be committed to a personal repo.
+
+**First-time setup:**
+```bash
+./scripts/setup-rage.sh
+```
+The script:
+1. Generates `~/.ssh/id_ed25519` if one doesn't exist
+2. Creates `~/.secrets/`
+3. Interactively encrypts your tokens (GitHub, GitLab, Cargo, Artifactory)
+
+**Encrypt a new secret manually:**
+```bash
+echo "mytoken" | rage -r "$(cat ~/.ssh/id_ed25519.pub)" -o ~/.secrets/mytoken.age
+```
+
+**Decrypt (check a value):**
+```bash
+rage -d -i ~/.ssh/id_ed25519 ~/.secrets/mytoken.age
+```
+
+**Inject into a project shell via `.envrc`:**
+```bash
+# .envrc (direnv auto-sources on cd)
+export GITHUB_TOKEN=$(rage -d -i ~/.ssh/id_ed25519 ~/.secrets/github-token.age)
+export ARTIFACTORY_TOKEN=$(rage -d -i ~/.ssh/id_ed25519 ~/.secrets/artifactory-token.age)
+export CARGO_REGISTRY_TOKEN=$(rage -d -i ~/.ssh/id_ed25519 ~/.secrets/cargo-token.age)
+```
+
+**Git HTTPS credentials** (add to `~/.gitconfig` or per-repo `.git/config`):
+```ini
+[credential "https://github.com"]
+    username = your-username
+    helper = "!f() { echo password=$(rage -d -i ~/.ssh/id_ed25519 ~/.secrets/github-token.age); }; f"
+
+[credential "https://gitlab.com"]
+    username = your-username
+    helper = "!f() { echo password=$(rage -d -i ~/.ssh/id_ed25519 ~/.secrets/gitlab-token.age); }; f"
+```
+
+> **Never commit `~/.secrets/*.age` to a shared repo.** They're encrypted but the habit matters.
+> The `~/.secrets/` directory is outside this repo — it lives only on your machine.
+
+---
+
 ### Neovim plugins
 
 On first nvim launch, lazy.nvim auto-installs all plugins. Or trigger manually:

@@ -28,6 +28,9 @@ opt.swapfile = false -- don't use swapfile
 opt.autoread = true -- auto read file if changed outside of vim
 -- recursive :find in current dir
 vim.cmd([[set path=.,,,$PWD/**]])
+opt.wildmenu = true                     -- enable cmdline completion menu
+opt.wildmode = "longest:full,full"      -- complete longest match first, then cycle
+opt.wildoptions = "pum,fuzzy"           -- popup menu + fuzzy filtering as you type
 
 -----------------------------------------------------------
 -- Neovim UI

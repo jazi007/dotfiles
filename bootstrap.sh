@@ -71,6 +71,14 @@ else
     nix run github:nix-community/home-manager -- switch --flake .#default --impure -b bak
 fi
 
+# ── Neovim config symlink ─────────────────────────────────────────────────────
+# home-manager can't create a single directory symlink (it does recursive file
+# installs instead). Do it here so edits to nvim/**/*.lua are live immediately.
+echo "Linking ~/.config/nvim → $DOTFILES_DIR/nvim ..."
+rm -rf "$HOME/.config/nvim"
+ln -sfn "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
+echo "  ✓ ~/.config/nvim → $DOTFILES_DIR/nvim"
+
 echo ""
 echo "╔══════════════════════════════════════╗"
 echo "║              All done!               ║"

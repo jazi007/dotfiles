@@ -7,7 +7,7 @@ alias ...   = cd ../..
 
 # ── Listing (eza) ─────────────────────────────────────────────────────────────
 alias ll    = eza -1 --icons --long --git-ignore
-alias lla   = eza -1 --icons --long --git-ignore --all
+alias lla   = eza -1 --icons --long --all
 alias la    = eza --all
 alias l     = eza --icons
 alias tree  = eza --icons --tree

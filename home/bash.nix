@@ -32,7 +32,7 @@
       ".." = "cd ..";
       "..." = "cd ../..";
       ll = "eza -1 --icons --long --git-ignore";
-      lla = "eza -1 --icons --long --git-ignore --all";
+      lla = "eza -1 --icons --long --all";
       la = "eza --all";
       l = "eza --icons";
       tree = "eza --icons --tree";

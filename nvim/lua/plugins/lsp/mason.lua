@@ -29,6 +29,11 @@ return {
         "cmake",
         "rust_analyzer",
       },
+      -- rustaceanvim manages its own rust-analyzer client; prevent mason-lspconfig
+      -- from starting a second one (which causes duplicate gd/gr results).
+      automatic_enable = {
+        exclude = { "rust_analyzer" },
+      },
     })
     mason_tool_installer.setup({
       ensure_installed = {

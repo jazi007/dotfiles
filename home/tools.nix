@@ -53,8 +53,15 @@
     tokei # fast code line counter
 
     # ── Shell completions ───────────────────────────────────────────────────────
-    carapace # universal external completer (cargo, git, docker, kubectl, ...)
+    # carapace is managed via programs.carapace below (proper shell integration)
   ];
+
+  # ── carapace (universal completions) ─────────────────────────────────────────
+  programs.carapace = {
+    enable = true;
+    enableBashIntegration = false;
+    enableNushellIntegration = false; # configured manually in nushell/config.nu
+  };
 
   # ── fzf shell integration ────────────────────────────────────────────────────
   # Provides: CTRL-R history, CTRL-T file, ALT-C cd — in any shell

@@ -40,6 +40,7 @@
     unzip
     jq # JSON processor
     yq-go # YAML processor
+    taplo # TOML formatter + language server
 
     # ── Secrets (no account, direnv-friendly) ─────────────────────────────────
     rage # Rust impl of age encryption — encrypt with SSH key, decrypt in .envrc

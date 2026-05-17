@@ -49,6 +49,9 @@
       # cargo / rust toolchain
       [[ -d "$HOME/.cargo/bin" ]] && export PATH="$PATH:$HOME/.cargo/bin"
 
+      # carapace universal completions
+      command -v carapace &>/dev/null && source <(carapace _carapace bash)
+
       # Proxy passthrough (populated by bootstrap.sh if needed; noop otherwise)
       # export http_proxy=...  → set in ~/.config/nushell/local.nu or here
 

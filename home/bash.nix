@@ -49,11 +49,23 @@
       # cargo / rust toolchain
       [[ -d "$HOME/.cargo/bin" ]] && export PATH="$PATH:$HOME/.cargo/bin"
 
+      # Restore terminal state before each prompt (guards against tools like
+      # `adb logcat` that disable echo when interrupted with Ctrl-C).
+      PROMPT_COMMAND="''${PROMPT_COMMAND:+$PROMPT_COMMAND; }stty sane"
+
       # Proxy passthrough (populated by bootstrap.sh if needed; noop otherwise)
       # export http_proxy=...  → set in ~/.config/nushell/local.nu or here
 
       # Source machine-local overrides (not tracked in repo)
       [[ -f "$HOME/.config/bash/local.sh" ]] && source "$HOME/.config/bash/local.sh"
+    '';
+
+    # Switch to nushell for interactive login shells without needing chsh or sudo.
+    # NU_VERSION is set by nushell itself, so this guard prevents re-exec loops.
+    profileExtra = ''
+      if [[ -z "$NU_VERSION" ]] && command -v nu &>/dev/null; then
+        exec nu --login
+      fi
     '';
   };
 }

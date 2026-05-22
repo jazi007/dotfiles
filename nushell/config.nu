@@ -48,6 +48,13 @@ $env.config = {
   # ── Theme ───────────────────────────────────────────────────────────────────
   color_config: (nord)
 
+  # ── Hooks ───────────────────────────────────────────────────────────────────
+  # Restore terminal state before each prompt. Guards against tools like
+  # `adb logcat` that disable echo when interrupted with Ctrl-C.
+  hooks: {
+    pre_prompt: [{ || ^stty sane }]
+  }
+
   # ── Display ─────────────────────────────────────────────────────────────────
   show_banner: false
 

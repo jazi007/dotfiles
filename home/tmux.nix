@@ -16,7 +16,8 @@
   # ~/.tmux.conf — fallback for tmux < 3.x
   home.file.".tmux.conf".source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/tmux.conf";
   # ~/.config/tmux/tmux.conf — XDG path, loaded first by tmux 3.x
-  home.file.".config/tmux/tmux.conf".source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/tmux.conf";
+  home.file.".config/tmux/tmux.conf".source =
+    config.lib.file.mkOutOfStoreSymlink "${flakeDir}/tmux.conf";
 
   # Fetch the iceberg theme that tmux.conf sources at runtime.
   # This replaces the wget call in set_env.sh.

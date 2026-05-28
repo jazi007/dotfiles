@@ -64,8 +64,6 @@
 
       http.postBuffer = 1048576000;
 
-      credential.helper = "store --file ~/.git.store";
-
       "url \"https://\"".insteadOf = "git://";
 
       "filter \"lfs\"" = {

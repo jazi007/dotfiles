@@ -104,48 +104,68 @@ After bootstrap completes:
 
 ### Secrets management (rage)
 
-Secrets (API tokens, registry credentials) are encrypted with [rage](https://github.com/str4d/rage) — a Rust implementation of the `age` encryption format. No account, no daemon, works offline. Encrypted files can safely be committed to a personal repo.
+Secrets (API tokens, registry credentials) are encrypted with [rage](https://github.com/str4d/rage) — a Rust implementation of the `age` encryption format. No account, no daemon, works offline.
+
+**Design:**
+- Private key: `~/.age/key.txt` — machine-local, never committed
+- Encrypted secrets: `$SECRETS_HOME` (default `~/.secrets`) — shareable, can live in a personal git repo
 
 **First-time setup:**
 ```bash
 ./scripts/setup-rage.sh
 ```
 The script:
-1. Generates `~/.ssh/id_ed25519` if one doesn't exist
-2. Creates `~/.secrets/`
-3. Interactively encrypts your tokens (GitHub, GitLab, Cargo, Artifactory)
+1. Generates `~/.age/key.txt` (or imports an existing one)
+2. Creates `$SECRETS_HOME`
+3. Interactively encrypts your tokens
 
-**Encrypt a new secret manually:**
+**Shell helpers** (`get_secret`, `add_secret`, `list_secrets` — available in bash and nushell):
 ```bash
-echo "mytoken" | rage -r "$(cat ~/.ssh/id_ed25519.pub)" -o ~/.secrets/mytoken.age
+get_secret github-token          # decrypt and print
+add_secret github-token          # prompt, encrypt, store
+list_secrets                     # list stored secret names
 ```
 
-**Decrypt (check a value):**
+**Override secrets location per machine** — add to `~/.config/bash/local.sh` or `~/.config/nushell/local.nu`:
 ```bash
-rage -d -i ~/.ssh/id_ed25519 ~/.secrets/mytoken.age
+# bash
+export SECRETS_HOME="$HOME/repos/my-secrets"
+```
+```nu
+# nushell
+$env.SECRETS_HOME = $"($env.HOME)/repos/my-secrets"
 ```
 
-**Inject into a project shell via `.envrc`:**
+**Use in `.envrc` (direnv):**
 ```bash
-# .envrc (direnv auto-sources on cd)
-export GITHUB_TOKEN=$(rage -d -i ~/.ssh/id_ed25519 ~/.secrets/github-token.age)
-export ARTIFACTORY_TOKEN=$(rage -d -i ~/.ssh/id_ed25519 ~/.secrets/artifactory-token.age)
-export CARGO_REGISTRY_TOKEN=$(rage -d -i ~/.ssh/id_ed25519 ~/.secrets/cargo-token.age)
+export GITHUB_TOKEN=$(get_secret github-token)
+export ARTIFACTORY_TOKEN=$(get_secret artifactory-token)
+export CARGO_REGISTRY_TOKEN=$(get_secret cargo-token)
 ```
 
-**Git HTTPS credentials** (add to `~/.gitconfig` or per-repo `.git/config`):
+**Git HTTPS credential helper** (add to `~/.config/git/local.conf` or per-repo `.git/config`):
 ```ini
 [credential "https://github.com"]
     username = your-username
-    helper = "!f() { echo password=$(rage -d -i ~/.ssh/id_ed25519 ~/.secrets/github-token.age); }; f"
+    helper = "!f() { echo password=$(rage -d -i ~/.age/key.txt \"${SECRETS_HOME:-$HOME/.secrets}/github-token.age\"); }; f"
 
 [credential "https://gitlab.com"]
     username = your-username
-    helper = "!f() { echo password=$(rage -d -i ~/.ssh/id_ed25519 ~/.secrets/gitlab-token.age); }; f"
+    helper = "!f() { echo password=$(rage -d -i ~/.age/key.txt \"${SECRETS_HOME:-$HOME/.secrets}/gitlab-token.age\"); }; f"
 ```
+> Git credential helpers run in a plain subprocess — `get_secret` (a shell function) is not available there, so call `rage` directly.
 
-> **Never commit `~/.secrets/*.age` to a shared repo.** They're encrypted but the habit matters.
-> The `~/.secrets/` directory is outside this repo — it lives only on your machine.
+**Cross-machine setup:**
+1. Copy the private key securely: `scp ~/.age/key.txt user@other-machine:~/.age/key.txt`
+2. Clone or sync your encrypted secrets repo
+3. Set `SECRETS_HOME` in `local.sh` / `local.nu` if using a non-default path
+4. Use `get_secret` and `add_secret` as usual
+
+> **Security notes:**
+> - `~/.age/key.txt` is your decryption identity — never commit it, back it up separately
+> - Encrypted `*.age` files are safe to commit to a personal repo (ciphertext only)
+> - Filenames are visible in git history — use neutral names if metadata matters
+> - A dedicated age key (not your SSH login key) gives better compartmentalization
 
 ---
 

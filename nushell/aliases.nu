@@ -63,3 +63,50 @@ alias termreset = tput cnorm
 
 # ── Valgrind ─────────────────────────────────────────────────────────────────
 alias callgrind = valgrind --tool=callgrind --dump-instr=yes --cache-sim=yes --branch-sim=yes --cacheuse=yes
+
+# ── rage secrets ──────────────────────────────────────────────────────────────
+def get_secret [name: string] {
+    let secrets_home = if "SECRETS_HOME" in $env { $env.SECRETS_HOME } else { $"($env.HOME)/.secrets" }
+    let age_key_file = if "AGE_KEY_FILE" in $env { $env.AGE_KEY_FILE } else { $"($env.HOME)/.age/key.txt" }
+    if not ($age_key_file | path exists) {
+        error make { msg: $"age key not found: ($age_key_file) — run setup-rage.sh first" }
+    }
+    let file = $"($secrets_home)/($name).age"
+    if not ($file | path exists) {
+        error make { msg: $"secret not found: ($file)" }
+    }
+    ^rage -d -i $age_key_file $file | str trim
+}
+
+def add_secret [name: string] {
+    let secrets_home = if "SECRETS_HOME" in $env { $env.SECRETS_HOME } else { $"($env.HOME)/.secrets" }
+    let age_key_file = if "AGE_KEY_FILE" in $env { $env.AGE_KEY_FILE } else { $"($env.HOME)/.age/key.txt" }
+    if not ($age_key_file | path exists) {
+        error make { msg: $"age key not found: ($age_key_file) — run setup-rage.sh first" }
+    }
+    let pub = (
+        open $age_key_file
+        | lines
+        | where { |l| $l | str starts-with "# public key: " }
+        | first
+        | str replace "# public key: " ""
+    )
+    mkdir $secrets_home
+    let out = $"($secrets_home)/($name).age"
+    if ($out | path exists) {
+        let yn = (input $"  ($out) already exists — overwrite? [y/N] ")
+        if not ($yn =~ '^[Yy]') { return }
+    }
+    let value = (input $"  Secret value for '($name)' \(input hidden\): " --suppress-output)
+    $value | ^rage -r $pub -o $out
+    print $"  ✓ encrypted → ($out)"
+}
+
+def list_secrets [] {
+    let secrets_home = if "SECRETS_HOME" in $env { $env.SECRETS_HOME } else { $"($env.HOME)/.secrets" }
+    if ($secrets_home | path exists) {
+        glob $"($secrets_home)/*.age" | each { |f| $f | path basename | str replace ".age" "" }
+    } else {
+        print $"no secrets found in ($secrets_home)"
+    }
+}

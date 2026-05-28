@@ -78,6 +78,44 @@
       # Proxy passthrough (populated by bootstrap.sh if needed; noop otherwise)
       # export http_proxy=...  → set in ~/.config/nushell/local.nu or here
 
+      # ── rage secrets ──────────────────────────────────────────────────────
+      # Defaults — override in ~/.config/bash/local.sh
+      export AGE_KEY_FILE="''${AGE_KEY_FILE:-$HOME/.age/key.txt}"
+      export SECRETS_HOME="''${SECRETS_HOME:-$HOME/.secrets}"
+
+      get_secret() {
+        local name="$1"
+        [[ -n "$name" ]] || { echo "usage: get_secret <name>" >&2; return 1; }
+        [[ -f "$AGE_KEY_FILE" ]] || { echo "age key not found: $AGE_KEY_FILE — run setup-rage.sh" >&2; return 1; }
+        local f="$SECRETS_HOME/$name.age"
+        [[ -f "$f" ]] || { echo "secret not found: $f" >&2; return 1; }
+        rage -d -i "$AGE_KEY_FILE" "$f"
+      }
+
+      add_secret() {
+        local name="$1"
+        [[ -n "$name" ]] || { echo "usage: add_secret <name>" >&2; return 1; }
+        [[ -f "$AGE_KEY_FILE" ]] || { echo "age key not found — run setup-rage.sh first" >&2; return 1; }
+        local pub
+        pub=$(sed -n 's/^# public key: //p' "$AGE_KEY_FILE")
+        [[ -n "$pub" ]] || { echo "could not read public key from $AGE_KEY_FILE" >&2; return 1; }
+        mkdir -p "$SECRETS_HOME" && chmod 700 "$SECRETS_HOME" 2>/dev/null || true
+        local out="$SECRETS_HOME/$name.age"
+        if [[ -f "$out" ]]; then
+          read -rp "  $out already exists — overwrite? [y/N] " yn
+          [[ "$yn" =~ ^[Yy]$ ]] || return 0
+        fi
+        read -rsp "  Secret value for '$name' (input hidden): " value; echo
+        printf '%s' "$value" | rage -r "$pub" -o "$out"
+        chmod 600 "$out"
+        echo "  ✓ encrypted → $out"
+      }
+
+      list_secrets() {
+        ls -1 "$SECRETS_HOME"/*.age 2>/dev/null | sed 's|.*/||; s|\.age$||' \
+          || echo "no secrets found in $SECRETS_HOME"
+      }
+
       # Source machine-local overrides (not tracked in repo)
       [[ -f "$HOME/.config/bash/local.sh" ]] && source "$HOME/.config/bash/local.sh"
     '';

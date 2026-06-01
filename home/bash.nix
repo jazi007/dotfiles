@@ -78,6 +78,11 @@
       # Proxy passthrough (populated by bootstrap.sh if needed; noop otherwise)
       # export http_proxy=...  → set in ~/.config/nushell/local.nu or here
 
+      # ── carapace — targeted completions only ──────────────────────────────
+      # Global enableBashIntegration is off (causes slowness/conflicts).
+      # Source specific completers that the system _adb fallback gets wrong.
+      source <(carapace adb bash 2>/dev/null) 2>/dev/null || true
+
       # ── rage secrets ──────────────────────────────────────────────────────
       # Defaults — override in ~/.config/bash/local.sh
       export AGE_KEY_FILE="''${AGE_KEY_FILE:-$HOME/.age/key.txt}"
